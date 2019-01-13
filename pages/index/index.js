@@ -46,11 +46,9 @@ Page({
       url: '/pages/nav/index',
     })
   },
-  contact(){
-    wx.showToast({
-      title: '请稍等···',
-      icon: 'loading',
-      duration: 2000
+  order(){
+    wx.navigateTo({
+      url: '/pages/order/order',
     })
   }
 })

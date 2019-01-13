@@ -7,20 +7,19 @@
     </view>
     <view class='cover'><image src='{{data.logo}}' mode='aspectFit'></image></view>
   </view>
- <view class='row link'>
+ <view class='row link' bindtap='order'>
     <view class='content'>
       <image src='../../images/profile.png' mode='aspectFit'></image>
-      <text>点餐</text>
+      <text>点此进入菜单点餐</text>
     </view>
-    <navigator class='btn' url='../order/order'>查看</navigator>
  </view> 
   <view class='row link'>
     <view class='content'>
       <image src='../../images/cons.png' mode='aspectFit'></image>
-      <text>反馈</text>
+      <text>点击按钮实时反馈</text>
     </view>
     <view class='btn'>
-      <contact-button type="default-light" size="20" session-from="weapp" class='contact' bindtap='contact'></contact-button>
+      <contact-button type="default-light" size="20" session-from="weapp" class='contact'></contact-button>
       <text>联系</text>
     </view>
  </view>
