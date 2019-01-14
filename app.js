@@ -28,6 +28,7 @@ App({
                     var avatarUrl = userInfo.avatarUrl;
 
                     var u = Bmob.Object.extend("_User");
+                    console.log(u);
                     var query = new Bmob.Query(u);
                     // 这个 id 是要修改条目的 id，你在生成这个存储并成功时可以获取到，请看前面的文档
                     query.get(user.id, {

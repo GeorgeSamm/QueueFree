@@ -72,7 +72,7 @@ Page({
         
       },
       error: error => {
-
+        console.log(error);
       }
     })
 
@@ -96,9 +96,11 @@ Page({
             createdAt: object.createdAt,
             menu_logo: object.get("menu_logo"),
             sale_number: object.get("sale_number"),
+            is_delete: object.get("is_delete"),
             num: 0
           });
         }
+        console.log(menuArray);
         for (let item of menuType) {
           const menuData = { foodType: item.type_name, id: item.id, data: [] };
           for (let items of menuArray) {
@@ -113,6 +115,7 @@ Page({
             }
           }
           Data.push(menuData);
+          console.log(menuData);
         }
         this.setData({
           menu: Data
@@ -121,7 +124,6 @@ Page({
       error: function (error) {
       }
     })
-
     wx.getStorage({
       key: 'openid',
       success: ress => {
@@ -365,6 +367,92 @@ Page({
     })
     wx.navigateTo({
       url: '../balance/balance'
+    })
+  },
+  onPullDownRefresh: function () {
+    // 显示顶部刷新图标
+    wx.showNavigationBarLoading();
+    const Menu_type = Bmob.Object.extend("menu_type");
+    const query = new Bmob.Query(Menu_type);
+    query.find({
+      success: result => {
+        const typeArray = [];
+        let hot = { id: "rexiao", type_name: "热销" };
+        let rec = { id: "tuijian", type_name: "推荐" };
+        for (let object of result) {
+          typeArray.push({
+            id: object.id,
+            type_name: object.get('type_name')
+          });
+        }
+        typeArray.unshift(hot); //热销
+        typeArray.unshift(rec); //推荐
+
+        console.log(typeArray)
+        this.setData({
+          currentType: typeArray[0].id,
+          menu: typeArray
+        })
+
+
+
+      },
+      error: error => {
+        console.log(error);
+      }
+    })
+
+    const Menu = Bmob.Object.extend("menu");
+    const Mquery = new Bmob.Query(Menu);
+    Mquery.include("type");
+    Mquery.find({
+      success: result => {
+        const menuType = this.data.menu,
+          menuArray = [],
+          Data = [];
+
+        for (let object of result) {
+          menuArray.push({
+            id: object.id,
+            type_name: object.get("type").get("type_name"),
+            is_rec: object.get("is_rec"),
+            is_hot: object.get("is_hot"),
+            price: object.get("price"),
+            menu_name: object.get("menu_name"),
+            createdAt: object.createdAt,
+            menu_logo: object.get("menu_logo"),
+            sale_number: object.get("sale_number"),
+            is_delete: object.get("is_delete"),
+            num: 0
+          });
+        }
+        console.log(menuArray);
+        for (let item of menuType) {
+          const menuData = { foodType: item.type_name, id: item.id, data: [] };
+          for (let items of menuArray) {
+            if (item.type_name == items.type_name) {
+              menuData.data.push(items);
+            }
+            if (items.is_hot && item.type_name == "热销") {
+              menuData.data.push(items);
+            }
+            if (items.is_rec && item.type_name == "推荐") {
+              menuData.data.push(items);
+            }
+          }
+          Data.push(menuData);
+          console.log(menuData);
+        }
+        this.setData({
+          menu: Data
+        })
+        // 隐藏导航栏加载框
+        wx.hideNavigationBarLoading();
+        // 停止下拉动作
+        wx.stopPullDownRefresh();
+      },
+      error: function (error) {
+      }
     })
   }
 })

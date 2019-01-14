@@ -7,7 +7,7 @@
   <!-- 点餐 -->
   <swiper-item>
     <view class="book-box">
-      <scroll-view class="swiper-vertical-nav" scroll-y="true" style="height:{{winHeight -91 }}px;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+      <scroll-view class="swiper-vertical-nav" scroll-y="true" style="height:{{winHeight -91 }}px;" >
         <view class="swiper-vertical-tab">
           <view wx:for="{{menu}}" class="{{currentType==item.id ? 'on' : ''}}" wx:key='item' bindtap="chooseType" data-foodtype="{{item.id}}">
             {{ item.foodType}}
@@ -15,7 +15,7 @@
         </view>
       </scroll-view>
 
-      <scroll-view class="swiper-vertical-box" scroll-y="true" style="height:{{winHeight - 91 }}px;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+      <scroll-view class="swiper-vertical-box" scroll-y="true" style="height:{{winHeight - 91 }}px;" >
         <view wx-if="{{currentType==item.id}}" class="vertical-list" wx:for="{{menu}}" wx:key="foodType" wx:for-index="idx">
           <text class="title">{{item.foodType}}</text>
           <view class="type-detail">
@@ -27,19 +27,26 @@
                 <text class='food-vol'>销售 {{ item.sale_number }} 份</text>
                 <view class='price'>
                   <text class="money">￥{{item.price}}</text>
-                  <view class="operations">
-                    <button class="reduce" data-num="{{item.num}}" bindtap="reduceFoodNum" wx:if="{{item.num>0}}" data-idx="{{idx}}" data-jdx="{{jdx}}" data-price="{{item.price}}" data-foodName="{{item.name}}"></button>
-                    <text wx:if="{{item.num>0}}">{{item.num}}</text>
-                    <button class="add" data-num="{{item.num}}" bindtap="addFoodNum" data-idx="{{idx}}
-                                         data-jdx=" {{jdx}}" data-price="{{item.price}}" data-foodName="{{item.name}}"></button>
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
+                  <view wx:if="{{item.is_delete==1}}">
+                    <view class="operations">
+                      <text>售罄</text>
                     </view>
-                
+                  </view>
+                  <view wx:else>
+                    <view class="operations">
+                      <button class="reduce" data-num="{{item.num}}" bindtap="reduceFoodNum" wx:if="{{item.num>0}}" data-idx="{{idx}}" data-jdx="{{jdx}}" data-price="{{item.price}}" data-foodName="{{item.name}}"></button>
+                      <text wx:if="{{item.num>0}}">{{item.num}}</text>
+                      <button class="add" data-num="{{item.num}}" bindtap="addFoodNum" data-idx="{{idx}}
+                                          data-jdx=" {{jdx}}" data-price="{{item.price}}" data-foodName="{{item.name}}"></button>
+                    </view>
+                  </view>
                 </view>
-            </scroll-view>
+              </view>
+            </view>
+          </view>
+                
+        </view>
+      </scroll-view>
     </view>  
         <!--下单-->
     <view class="Bill-layer" wx:if="{{showCart&&sumNum>0}}" bindtap="hiddenLayer"></view>
