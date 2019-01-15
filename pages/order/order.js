@@ -16,10 +16,11 @@ Page({
     }
   },
   bindChange(e) {
+    //console.log(e);
     this.setData({ currentTab: e.detail.current });
   },
   onLoad(options) {
-    
+    //console.log(options);
     if (options.tid){
       wx.setStorage({
         key: "place",
@@ -29,7 +30,7 @@ Page({
       wx.removeStorage({
         key: 'place',
         success: function (res) {
-          console.log(res.data)
+          //console.log(res.data)
         }
       })
     }
@@ -62,7 +63,7 @@ Page({
         typeArray.unshift(hot); //热销
         typeArray.unshift(rec); //推荐
 
-        console.log(typeArray)
+        //console.log(typeArray)
         this.setData({
           currentType: typeArray[0].id,
           menu: typeArray
@@ -100,7 +101,7 @@ Page({
             num: 0
           });
         }
-        console.log(menuArray);
+        //console.log(menuArray);
         for (let item of menuType) {
           const menuData = { foodType: item.type_name, id: item.id, data: [] };
           for (let items of menuArray) {
@@ -115,7 +116,7 @@ Page({
             }
           }
           Data.push(menuData);
-          console.log(menuData);
+          //console.log(menuData);
         }
         this.setData({
           menu: Data
@@ -260,7 +261,7 @@ Page({
       isOrder = this.data.noOrder,
       jsonA = this.data.menu;
 
-    console.log(jsonA)
+    //console.log(jsonA)
 
     jsonA[idx]["data"][jdx]["num"] = addFoodNum;
 
@@ -374,6 +375,19 @@ Page({
     wx.showNavigationBarLoading();
     const Menu_type = Bmob.Object.extend("menu_type");
     const query = new Bmob.Query(Menu_type);
+    let jsonC = this.data.menu;
+    for (let i in jsonC) {
+      for (let j in jsonC[i].data) {
+        jsonC[i].data[j].num = 0;
+      }
+    }
+    this.setData({
+      menu: jsonC,
+      sumNum: 0,
+      sumMon: 0,
+      noOrder: true,
+      showCart: false
+    })
     query.find({
       success: result => {
         const typeArray = [];
@@ -388,7 +402,7 @@ Page({
         typeArray.unshift(hot); //热销
         typeArray.unshift(rec); //推荐
 
-        console.log(typeArray)
+        //console.log(typeArray)
         this.setData({
           currentType: typeArray[0].id,
           menu: typeArray
@@ -426,7 +440,7 @@ Page({
             num: 0
           });
         }
-        console.log(menuArray);
+        //console.log(menuArray);
         for (let item of menuType) {
           const menuData = { foodType: item.type_name, id: item.id, data: [] };
           for (let items of menuArray) {
@@ -441,7 +455,7 @@ Page({
             }
           }
           Data.push(menuData);
-          console.log(menuData);
+          //console.log(menuData);
         }
         this.setData({
           menu: Data

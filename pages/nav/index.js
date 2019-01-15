@@ -12,7 +12,7 @@ Page({
     textData: {},
     city: '',
     markerId: 0,
-    keywords: "志远餐厅(明艺路)",
+    keywords: "",
     controls: [
       {
         id: 0,
@@ -30,8 +30,8 @@ Page({
   onLoad(e) {
     amap.getRegeo()
       .then(d => {
-        console.log(d);
-        console.log(d[0]);
+        //console.log(d);
+        //console.log(d[0]);
         let { name, desc, latitude, longitude } = d[0];
         let { city } = d[0].regeocodeData.addressComponent;
         this.setData({
@@ -47,16 +47,16 @@ Page({
   },
   bindInput() {
     let { latitude, longitude, city } = this.data;
-    console.log(this.data);
+    //console.log(this.data);
     let url = `/pages/inputtip/inputtip?city=${city}&lonlat=${longitude},${latitude}`;
     wx.navigateTo({ url });
   },
   makertap(e) {
-    console.log(e);
+    //console.log(e);
     let { markerId } = e;
     let { markers } = this.data;
     let marker = markers[markerId];
-    console.log(marker);
+    //console.log(marker);
     this.showMarkerInfo(marker);
     this.changeMarkerColor(markerId);
   },
@@ -68,7 +68,7 @@ Page({
   },
   changeMarkerColor(markerId) {
     let { markers } = this.data;
-    console.log(markers);
+    //console.log(markers);
     markers.forEach((item, index) => {
       item.iconPath = "/images/marker.png";
       if (index == markerId) item.iconPath = "/images/marker_checked.png";
@@ -86,22 +86,21 @@ Page({
     wx.navigateTo({ url });
   },
   clickcontrol(e) {
-    console.log("回到用户当前定位点");
+    //console.log("回到用户当前定位点");
     let { controlId } = e;
     let mpCtx = wx.createMapContext("map");
     mpCtx.moveToLocation();
   },
   mapchange() {
-    // console.log("改变视野");
+    //console.log("改变视野");
   },
   bindTap(e){
-    console.log(e);
-    let { keywords } = this.data;
-    console.log(keywords);
+    //console.log(e);
+    let keywords = '志远餐厅(明艺路)';
     if (keywords) {
     amap.getPoiAround(keywords)
       .then(d => {
-        console.log(d);
+        //console.log(d);
         let { markers } = d;
         markers.forEach(item => {
           item.iconPath = "/images/marker.png";

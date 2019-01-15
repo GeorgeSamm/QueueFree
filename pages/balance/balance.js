@@ -38,65 +38,91 @@ Page({
     })
   },
   pay(event){
-    let remarks = "无",
+    //console.log(event);
+    let remarks = event.detail.value.remarks,
       sumMon = this.data.sumMon;
     let orderDetail = this.data.detail;
+
+    if (remarks == "") remarks = "无";
     
-    wx.getStorage({
-      key: 'openid',
-      success: ress => {
-        const currentUser = Bmob.User.current();
-        const OrderB = Bmob.Object.extend("Order");
-        const Order = new OrderB();
-        let me = new Bmob.User();
-        me.id = currentUser.id;
-
-        //销售份增加
-        const Diary = Bmob.Object.extend("menu");
-        const query = new Bmob.Query(Diary);
-        query.find({
-          success: (res) => {
-            for (let object of res) {
-              console.log(object.id)
-              for (let i in orderDetail) {
-                if (object.id == orderDetail[i].id) {
-                  object.increment("sale_number");
-                  object.save();
-                }
-              }
-            }
-          },
-          error: (error) => {
-            console.log("查询失败: " + error.code + " " + error.message);
-          }
-        });
-
-
-
-        console.log(parseInt(sumMon))
-        console.log(parseInt(orderDetail))
-        Order.set("orderUser", me);
-        Order.set("amount", sumMon);
-        Order.set("status", 1);
-        Order.set("orderDetail", orderDetail);
-        Order.save(null, {
-          success: result => {
-            wx.redirectTo({
-              url: '../transaction/transaction'
-            })
-          },
-          error: (result, error) => {
-
-          }
-        });
-      }
-    })
     wx.scanCode({
       success: (res) => {
-        console.log(res)
+        console.log(res);
+        wx.getStorage({
+          key: 'openid',
+          success: ress => {
+            const currentUser = Bmob.User.current();
+            const OrderB = Bmob.Object.extend("Order");
+            const Order = new OrderB();
+            let me = new Bmob.User();
+            me.id = currentUser.id;
+
+            //销售份增加
+            const Diary = Bmob.Object.extend("menu");
+            const query = new Bmob.Query(Diary);
+            query.find({
+              success: (res) => {
+                for (let object of res) {
+                  //console.log(object.id)
+                  for (let i in orderDetail) {
+                    if (object.id == orderDetail[i].id) {
+                      object.increment("sale_number");
+                      object.save();
+                    }
+                  }
+                }
+              },
+              error: (error) => {
+                console.log("查询失败: " + error.code + " " + error.message);
+              }
+            });
+
+            //console.log(parseInt(sumMon))
+            //console.log(parseInt(orderDetail))
+            Order.set("orderUser", me);
+            Order.set("amount", sumMon);
+            Order.set("status", 1);
+            Order.set("orderDetail", orderDetail);
+            Order.save(null, {
+              success: result => {
+                wx.redirectTo({
+                  url: '../transaction/transaction'
+                })
+              },
+              error: (result, error) => {
+
+              }
+            });
+          }
+        })
+      },
+      'fail': res => {
+        console.log(res);
+        wx.getStorage({
+          key: 'openid',
+          success: ress => {
+            const currentUser = Bmob.User.current();
+            const OrderB = Bmob.Object.extend("Order");
+            const Order = new OrderB();
+            const me = new Bmob.User();
+            me.id = currentUser.id;
+            Order.set("remarks", remarks);
+            Order.set("orderUser", me);
+            Order.set("amount", parseInt(sumMon));
+            Order.set("status", 0);
+            Order.set("orderDetail", orderDetail);
+            Order.save(null, {
+              success: result => {
+                //console.log(result.id)
+              },
+              error: (result, error) => {
+
+              }
+            });
+          }
+        })
       }
     })
-
   },
   settlement(event) {
     let remarks = event.detail.value.remarks,
@@ -162,14 +188,14 @@ Page({
                       }
                     });
 
-                    console.log(tableNum)
-                    console.log(peopleNum)
-                    console.log(remarks)
-                    console.log(parseInt(sumMon))
-                    console.log(parseInt(orderDetail))
-                    console.log(parseInt(orderId))
-                    Order.set("tableNum", tableNum);
-                    Order.set("peopleNum", peopleNum);
+                    //console.log(tableNum)
+                    //console.log(peopleNum)
+                    //console.log(remarks)
+                    //console.log(parseInt(sumMon))
+                    //console.log(parseInt(orderDetail))
+                    //console.log(parseInt(orderId))
+                    //Order.set("tableNum", tableNum);
+                    //Order.set("peopleNum", peopleNum);
                     Order.set("remarks", remarks);
                     Order.set("orderUser", me);
                     Order.set("amount", sumMon);
@@ -199,8 +225,8 @@ Page({
                     const Order = new OrderB();
                     const me = new Bmob.User();
                     me.id = currentUser.id;
-                    Order.set("tableNum", tableNum);
-                    Order.set("peopleNum", peopleNum);
+                    //Order.set("tableNum", tableNum);
+                    //Order.set("peopleNum", peopleNum);
                     Order.set("remarks", remarks);
                     Order.set("orderUser", me);
                     Order.set("amount", parseInt(sumMon));
@@ -208,7 +234,7 @@ Page({
                     Order.set("orderDetail", res.data);
                     Order.save(null, {
                       success: result => {
-                        console.log(result.id)
+                        //console.log(result.id)
                       },
                       error: (result, error) => {
 

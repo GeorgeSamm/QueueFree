@@ -87,7 +87,7 @@
 
   <!-- 订单 -->
   <swiper-item>
-    <scroll-view class="order-box" scroll-y="true" style="height:{{winHeight-91}}px;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+    <scroll-view class="order-box" scroll-y="true" style="height:{{winHeight-91}}px;">
       <view class="page panel">
         <view class="c-minheight page__bd">
           <view class="weui-form-preview" wx:for="{{orderArray}}" wx:key="item">

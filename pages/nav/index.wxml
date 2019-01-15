@@ -1,6 +1,6 @@
 <view class="section">
-  <input bindtouchstart="bindInput" placeholder="点此处获取餐厅" value="{{keywords}}" />
-  <button bindtap='bindTap'>搜索餐厅</button>
+  <input bindtouchstart="bindInput" placeholder="获取其他地址" value="{{keywords}}" />
+  <button bindtap='bindTap'>去志远餐厅</button>
 </view>
 <view class="map_container">
   <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="16"  show-location="true" markers="{{markers}}"

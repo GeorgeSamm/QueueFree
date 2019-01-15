@@ -1,5 +1,5 @@
 <view class="takeOrder">
-<form bindsubmit="settlement" >
+<form bindsubmit="settlement" bindsubmit='pay'>
   <view class="place"></view>
   <view class="food-detail {{idx==detail.length?'nobd':''}} nomt" wx:for="{{detail}}" wx:key="item" wx:for-index="idx">
     <text>{{item.menu_name}}</text>
@@ -44,7 +44,7 @@
       金额：
       <text>￥{{sumMon}}</text>
     </view>
-    <button class="box-right" formType="submit" bindtap='pay'>
+    <button class="box-right" formType="submit">
       付款
     </button>
   </view>

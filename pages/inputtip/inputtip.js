@@ -7,23 +7,23 @@ Page({
     lonlat: "",
     city: "",
     tips: [],
-    keywords:"志远餐厅(明艺路)"
+    keywords:""
   },
   onLoad(e) {
-    console.log(e);
+    //console.log(e);
     let { lonlat, city } = e;
     this.setData({
       lonlat, city
     })
   },
   bindInput(e) {
-    console.log(e);
+    //console.log(e);
     let { value } = e.detail;
     let { lonlat, city } = this.data;
-    console.log(lonlat); console.log(city);
+    //console.log(lonlat); console.log(city);
     amap.getInputtips(city, lonlat, value)
       .then(d => {
-        console.log(d);
+        //console.log(d);
         if (d && d.tips) {
           this.setData({
             tips: d.tips
@@ -35,18 +35,18 @@ Page({
       })
   },
   bindSearch(e) {
-    console.log(e);
-    let { keywords } = this.data;
-    console.log(keywords);
+    //console.log(e);
+    let { keywords } = e.target.dataset;
+    //console.log(keywords);
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];  //上一个页面
-    console.log(pages);
-    console.log(prevPage);
+    //console.log(pages);
+    //console.log(prevPage);
     if (keywords) {
       prevPage.setData({ keywords });
       amap.getPoiAround(keywords)
         .then(d => {
-          console.log(d);
+          //console.log(d);
           let { markers } = d;
           markers.forEach(item => {
             item.iconPath = "/images/marker.png";
@@ -59,7 +59,9 @@ Page({
           console.log(e);
         })
     }
-    let url = `/pages/index/index`;
-    wx.switchTab({ url })
+    let url = `/pages/nav/index`;
+    wx.navigateBack({
+      url
+    })
   }
 });
